@@ -76,8 +76,3 @@ df_extract_means <- df_extract %>%
   summarise_all(funs(mean))
 
 write.table(df_extract_means, "outputs/extract_means.txt", row.name=FALSE)
-
-
-# Final Check Stage -------------------------------------------------------
-
-str(df_extract_means)
