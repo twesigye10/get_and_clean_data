@@ -1,0 +1,75 @@
+---
+title: "CodeBook"
+author: "AT"
+date: "Jan 2024"
+output:
+html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+knit: (function(inputFile, encoding) { rmarkdown::render(inputFile, encoding = encoding, output_file = paste0(dirname(inputFile), '/codebook_', format(Sys.Date(), '%Y_%m_%d'),'.html')) })
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Get and Clean Data
+
+This project contains the an R script that downloads, cleans and analyzes data according to the 
+activity description.
+
+### Download and extract the data
+
+Used the zip and unzip functions to download and extract the dataset into the inputs folder of the project
+
+### Read the data into appropriate variables
+
+The script then reads the data into appropriate variables
+
+> df_features : features.txt\
+This is a data frame (561 obs. of  2 variables). Features selected come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ
+
+> df_activities : activity_labels.txt\
+This is a data frame (6 obs. of  2 variables). Contains the 6 different activities and their labels performed by volunteers
+
+> df_subject_test : subject_test.txt\
+This is a data frame (2947 obs. of  1 variable). Identifies the subject who performed the activity for each window sample in the test data
+
+> df_x_test : X_test.txt\
+This is a data frame (2947 obs. of  561 variables). Test set
+
+> df_y_test : y_test.txt\
+This is a data frame (2947 obs. of  1 variable). Test labels
+
+> df_subject_train : subject_train.txt\
+This is a data frame (7352 obs. of  1 variable). Identifies the subject who performed the activity for each window sample in the training data
+
+> df_x_train : X_train.txt\
+This is a data frame (7352 obs. of  561 variables). Training set
+
+> df_y_train : y_train.txt\
+This is a data frame (7352 obs. of  1 variable). Training labels
+
+### 1. Merge the training and the test sets to create one data set.
+
+Used `rbind()` function to merge the training, testing and subject data in their respective variables and 
+then combine these into one data frame using the `cbind()` function.
+
+### 2. Extract only the measurements on the mean and standard deviation for each measurement.
+
+Used `dplyr::select()` function with the `contains()` selection helper to select the columns with `"mean" and "std"`
+
+### 3. Use descriptive activity names to name the activities in the data set
+
+Renamed the activities in the extracted data using the activity column of activities daset
+
+### 4. Appropriately labels the data set with descriptive variable names.
+
+Using the `names() and gsub()` functions, I renamed columns with appropriate descriptive names for activities
+
+### 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable
+for each activity and each subject.
+
+Grouped the extracted dataset by subject and activity with the `group_by()` function and summarized all columns `summarise_all()` using the `mean()` function. To generate the average for each activity and each subject
